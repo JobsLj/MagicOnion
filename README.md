@@ -4,13 +4,13 @@ MagicOnion
 
 gRPC based HTTP/2 RPC Streaming Framework for .NET, .NET Core and Unity.
 
-Work in progress, stay tuned.
-
 Quick Start
 ---
-alpha-version is available in NuGet(Currently only work on .NET 4.5, .NET Core is not yet, Unity supports see [Unity Supports](https://github.com/neuecc/MagicOnion#unity-supports) section, HttpGateway + Swagger Intergarion supports see [Swagger](https://github.com/neuecc/MagicOnion#swagger) section)
+for .NET 4.6, 4.7 and .NET Standard 1.5(.NET Core) available in NuGet. Unity supports see [Unity Supports](https://github.com/neuecc/MagicOnion#unity-supports) section. HttpGateway + Swagger Intergarion supports see [Swagger](https://github.com/neuecc/MagicOnion#swagger) section.
 
-* Install-Package MagicOnion -Pre
+```
+Install-Package MagicOnion
+```
 
 Let's implements Server, Server has two parts, interface and implementation.
 
@@ -31,11 +31,11 @@ public interface IMyFirstService : IService<IMyFirstService>
 // inehrit ServiceBase<interface>, interface
 public class MyFirstService : ServiceBase<IMyFirstService>, IMyFirstService
 {
-    public UnaryResult<int> SumAsync(int x, int y)
+    public async UnaryResult<int> SumAsync(int x, int y)
     {
         Logger.Debug($"Received:{x}, {y}");
 
-        return UnaryResult(x + y);
+        return x + y;
     }
 }
 ```
@@ -137,6 +137,7 @@ public interface IMyFirstService : IService<IMyFirstService>
 public class MyFirstService : ServiceBase<IMyFirstService>, IMyFirstService
 {
     // VisualStudio 2017(C# 7.0) supports return `async UnaryResult` directly
+    // I recommend disable async-warning on project level. <NoWarn>1998</NoWarn>
     public async UnaryResult<string> SumAsync(int x, int y)
     {
         Logger.Debug($"Called SumAsync - x:{x} y:{y}");
@@ -389,3 +390,23 @@ moc arguments help:
 ```
 
 moc.exe is located in `packages\MagicOnion.*.*.*\tools\moc.exe`.
+
+Who is using this?
+---
+MagicOnion is already in production use at [kuro-kishi](https://kuro-kishi.jp/)(Mobile RPG on iOS/Android at Japan Market), kuro-kishi receiving 30000 connections and many conncurrent requests.
+
+Author Info
+---
+Yoshifumi Kawai(a.k.a. neuecc) is a software developer in Japan.  
+He is the Director/CTO at Grani, Inc.  
+Grani is a mobile game developer company in Japan and well known for using C#.  
+He is awarding Microsoft MVP for Visual C# since 2011.  
+He is known as the creator of [UniRx](http://github.com/neuecc/UniRx/)(Reactive Extensions for Unity)  
+
+Blog: [https://medium.com/@neuecc](https://medium.com/@neuecc) (English)  
+Blog: [http://neue.cc/](http://neue.cc/) (Japanese)  
+Twitter: [https://twitter.com/neuecc](https://twitter.com/neuecc) (Japanese)   
+
+License
+---
+This library is under the MIT License.
